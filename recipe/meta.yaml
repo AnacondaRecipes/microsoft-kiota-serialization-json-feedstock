@@ -1,0 +1,49 @@
+{% set name = "microsoft-kiota-serialization-json" %}
+{% set version = "1.2.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/microsoft_kiota_serialization_json-{{ version }}.tar.gz
+  sha256: 89a4ec0128958bc92287db0cf5b6616a9f66ac42f6c7bcfe8894393d2156bed9
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - flit-core >=3.2,<4
+    - pip
+  run:
+    - python
+    - microsoft-kiota-abstractions >=1.0.0,<2.0.0
+    - pendulum >=3.0.0b1
+
+test:
+  imports:
+    - kiota_serialization_json
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/microsoft/kiota-serialization-json-python
+  summary: Implementation of Kiota Serialization interfaces for JSON
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  dev_url: https://github.com/microsoft/kiota-serialization-json-python
+  doc_url: https://github.com/microsoft/kiota-serialization-json-python/blob/main/README.md
+
+extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/48409
+    reason: Dependency for msgraph-sdk
+    recipe-maintainers:
+      - ianaobi
